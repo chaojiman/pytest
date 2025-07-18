@@ -1,246 +1,285 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>班级学生查询系统</title>
     <style>
-        body {
-            font-family: 'Microsoft YaHei', Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        
-        .container {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 30px;
-        }
-        
-        .search-form {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            justify-content: center;
-        }
-        
-        input[type="text"] {
-            padding: 12px;
-            font-size: 16px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            width: 200px;
-        }
-        
-        input[type="text"]:focus {
-            outline: none;
-            border-color: #4CAF50;
-        }
-        
-        button {
-            padding: 12px 24px;
-            font-size: 16px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        button:hover {
-            background-color: #45a049;
-        }
-        
-        button:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
-        
-        .result {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 5px;
-            text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-        }
-        
-        .result.found {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        
-        .result.not-found {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        
-        .result.error {
-            background-color: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeaa7;
-        }
-        
-        .students-list {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: #f8f9fa;
-            border-radius: 5px;
-        }
-        
-        .students-list h3 {
-            margin-top: 0;
-            color: #333;
-        }
-        
-        .students-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .student-name {
-            background: white;
-            padding: 8px;
-            text-align: center;
-            border-radius: 3px;
-            border: 1px solid #ddd;
-        }
-        
-        .loading {
-            display: none;
-            text-align: center;
-            color: #666;
-        }
+      body {
+        font-family: "Microsoft YaHei", Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f5f5f5;
+      }
+
+      .container {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 30px;
+      }
+
+      .search-form {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        justify-content: center;
+      }
+
+      input[type="text"] {
+        padding: 12px;
+        font-size: 16px;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        width: 200px;
+      }
+
+      input[type="text"]:focus {
+        outline: none;
+        border-color: #4caf50;
+      }
+
+      button {
+        padding: 12px 24px;
+        font-size: 16px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+
+      button:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+      }
+
+      .result {
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 5px;
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      .result.found {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      .result.not-found {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+
+      .result.error {
+        background-color: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeaa7;
+      }
+
+      .students-list {
+        margin-top: 30px;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 5px;
+      }
+
+      .students-list h3 {
+        margin-top: 0;
+        color: #333;
+      }
+
+      .students-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 10px;
+        margin-top: 15px;
+      }
+
+      .student-name {
+        background: white;
+        padding: 8px;
+        text-align: center;
+        border-radius: 3px;
+        border: 1px solid #ddd;
+      }
+
+      .loading {
+        display: none;
+        text-align: center;
+        color: #666;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <h1>班级学生查询系统</h1>
-        
-        <form class="search-form" id="searchForm">
-            <input type="text" id="nameInput" placeholder="请输入学生姓名" required>
-            <button type="submit" id="searchBtn">查询</button>
-        </form>
-        
-        <div class="loading" id="loading">查询中...</div>
-        <div id="result"></div>
-        
-        <div class="students-list">
-            <h3>班级学生名单：</h3>
-            <div class="students-grid" id="studentsList">
-                <div class="loading">加载中...</div>
-            </div>
+      <h1>班级学生查询系统</h1>
+
+      <form class="search-form" id="searchForm">
+        <input
+          type="text"
+          id="nameInput"
+          placeholder="请输入学生姓名"
+          required
+        />
+        <button type="submit" id="searchBtn">查询</button>
+      </form>
+
+      <div class="loading" id="loading">查询中...</div>
+      <div id="result"></div>
+
+      <div class="students-list">
+        <h3>班级学生名单：</h3>
+        <div class="students-grid" id="studentsList">
+          <div class="loading">加载中...</div>
         </div>
+      </div>
     </div>
 
     <script>
-        // 页面加载时获取学生列表
-        document.addEventListener('DOMContentLoaded', function() {
-            loadStudentsList();
+      // 页面加载时获取学生列表
+      document.addEventListener("DOMContentLoaded", function () {
+        loadStudentsList();
+      });
+
+      // 搜索表单提交
+      document
+        .getElementById("searchForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          searchStudent();
         });
 
-        // 搜索表单提交
-        document.getElementById('searchForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+      // 查询学生函数
+      async function searchStudent() {
+        const nameInput = document.getElementById("nameInput");
+        const searchBtn = document.getElementById("searchBtn");
+        const loading = document.getElementById("loading");
+        const result = document.getElementById("result");
+
+        const name = nameInput.value.trim();
+
+        if (!name) {
+          showResult("请输入学生姓名", "error");
+          return;
+        }
+
+        // 显示加载状态
+        loading.style.display = "block";
+        searchBtn.disabled = true;
+        result.innerHTML = "";
+
+        try {
+          // 获取完整URL（确保在部署环境中也能正常工作）
+          const baseUrl = window.location.origin;
+          const url = `${baseUrl}/search`;
+          console.log('搜索请求URL:', url);
+          
+          const response = await fetch(url, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json"
+            },
+            body: JSON.stringify({ name: name }),
+          });
+          
+          console.log('搜索响应状态:', response.status);
+          const data = await response.json();
+          console.log('搜索响应数据:', data);
+
+          if (response.ok) {
+            showResult(data.message, data.found ? "found" : "not-found");
+          } else {
+            showResult(data.error || "查询失败", "error");
+          }
+        } catch (error) {
+          showResult("网络错误，请稍后重试", "error");
+          console.error("Error:", error);
+        } finally {
+          loading.style.display = "none";
+          searchBtn.disabled = false;
+        }
+      }
+
+      // 显示查询结果
+      function showResult(message, type) {
+        const result = document.getElementById("result");
+        result.innerHTML = message;
+        result.className = `result ${type}`;
+      }
+
+      // 加载学生列表
+      async function loadStudentsList() {
+        const studentsList = document.getElementById("studentsList");
+
+        try {
+          // 显示加载中状态
+          studentsList.innerHTML = '<div>加载中...</div>';
+          
+          // 获取完整URL（确保在部署环境中也能正常工作）
+          const baseUrl = window.location.origin;
+          const url = `${baseUrl}/students`;
+          console.log('请求URL:', url);
+          
+          const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            }
+          });
+          
+          console.log('响应状态:', response.status);
+          const data = await response.json();
+          console.log('响应数据:', data);
+          
+          if (response.ok && data.students) {
+            studentsList.innerHTML = "";
+            if (data.students.length === 0) {
+              studentsList.innerHTML = '<div>暂无学生数据</div>';
+            } else {
+              data.students.forEach((name) => {
+                const div = document.createElement("div");
+                div.className = "student-name";
+                div.textContent = name;
+                studentsList.appendChild(div);
+              });
+            }
+          } else {
+            studentsList.innerHTML =
+              `<div class="error">加载学生列表失败: ${data.error || '未知错误'}</div>`;
+          }
+        } catch (error) {
+          studentsList.innerHTML = `<div class="error">网络错误，请稍后重试</div>`;
+          console.error("Error loading students:", error);
+        }
+      }
+
+      // 回车键搜索
+      document
+        .getElementById("nameInput")
+        .addEventListener("keypress", function (e) {
+          if (e.key === "Enter") {
             searchStudent();
-        });
-
-        // 查询学生函数
-        async function searchStudent() {
-            const nameInput = document.getElementById('nameInput');
-            const searchBtn = document.getElementById('searchBtn');
-            const loading = document.getElementById('loading');
-            const result = document.getElementById('result');
-            
-            const name = nameInput.value.trim();
-            
-            if (!name) {
-                showResult('请输入学生姓名', 'error');
-                return;
-            }
-            
-            // 显示加载状态
-            loading.style.display = 'block';
-            searchBtn.disabled = true;
-            result.innerHTML = '';
-            
-            try {
-                const response = await fetch('/search', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ name: name })
-                });
-                
-                const data = await response.json();
-                
-                if (response.ok) {
-                    showResult(data.message, data.found ? 'found' : 'not-found');
-                } else {
-                    showResult(data.error || '查询失败', 'error');
-                }
-            } catch (error) {
-                showResult('网络错误，请稍后重试', 'error');
-                console.error('Error:', error);
-            } finally {
-                loading.style.display = 'none';
-                searchBtn.disabled = false;
-            }
-        }
-
-        // 显示查询结果
-        function showResult(message, type) {
-            const result = document.getElementById('result');
-            result.innerHTML = message;
-            result.className = `result ${type}`;
-        }
-
-        // 加载学生列表
-        async function loadStudentsList() {
-            const studentsList = document.getElementById('studentsList');
-            
-            try {
-                const response = await fetch('/students');
-                const data = await response.json();
-                
-                if (response.ok && data.students) {
-                    studentsList.innerHTML = '';
-                    data.students.forEach(name => {
-                        const div = document.createElement('div');
-                        div.className = 'student-name';
-                        div.textContent = name;
-                        studentsList.appendChild(div);
-                    });
-                } else {
-                    studentsList.innerHTML = '<div class="error">加载学生列表失败</div>';
-                }
-            } catch (error) {
-                studentsList.innerHTML = '<div class="error">网络错误</div>';
-                console.error('Error loading students:', error);
-            }
-        }
-
-        // 回车键搜索
-        document.getElementById('nameInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                searchStudent();
-            }
+          }
         });
     </script>
-</body>
+  </body>
 </html>
